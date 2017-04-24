@@ -5,8 +5,7 @@
 
 
     <context id="mysql" targetRuntime="MyBatis3">
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.199.249:3306/study"
-                        userId="root" password="root888!">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.199.249:3306/study" userId="root" password="root888!">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -35,8 +34,8 @@
              * columnOverride:列重写，比如这里，create_time主要将数据类型调整为Timestamp
              -->
             <property name="useActualColumnNames" value="false"/>
-            <columnRenamingRule searchString="^*" replaceString="" />
-            <columnOverride column="create_time" javaType="java.sql.Timestamp" />
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
         </table>
     </context>
 </generatorConfiguration>
