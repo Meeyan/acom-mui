@@ -18,4 +18,9 @@ public class UserServiceImpl implements IUserService {
     public AdminUser getAdminUserById(int userId) {
         return this.adminUserMapper.selectByPrimaryKey(1);
     }
+
+    public boolean addAdminUser(AdminUser adminUser) {
+        int insert = this.adminUserMapper.insertSelective(adminUser);
+        return true;
+    }
 }

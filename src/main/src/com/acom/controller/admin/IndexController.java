@@ -61,7 +61,7 @@ public class IndexController {
     @RequestMapping(value = "")
     public ModelAndView indexDef() {
         ModelAndView view = new ModelAndView();
-        view.setViewName("admin/index");
+        view.setViewName("ftl/index");
         return view;
     }
 }

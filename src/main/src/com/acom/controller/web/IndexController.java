@@ -3,7 +3,6 @@ package com.acom.controller.web;
 import com.acom.entities.model.AdminUser;
 import com.acom.services.sv.IUserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,6 +32,14 @@ public class IndexController {
         view.setViewName("jsp/index");
         AdminUser adminUserById = userService.getAdminUserById(1);
         System.out.println(adminUserById.getNickName());
+
+        AdminUser newUser = new AdminUser();
+        newUser.setLoginAcct("zhangsan");
+        newUser.setNickName("zhangsan");
+        newUser.setRealName("张三");
+
+        userService.addAdminUser(newUser);
+
         return view;
     }
 
