@@ -1,0 +1,1 @@
+2017-06-02 今天正式集成mybatis+freemarker，其中，可以使用两种view，jsp和ftl，问题：tomcat启动时，会请求两次IndexController默认的路径
