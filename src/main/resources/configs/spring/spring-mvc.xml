@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!-- 1. 启用注解 -->
+    <context:annotation-config/>
+
+    <!-- 2. 注解的作用域 -->
+    <context:component-scan base-package="com.acom.controller.**"/>
+
+    <!--
+    拦截器配置：
+     方法一：使用mvc:interceptors,在对应的拦截器中无法转换为HandlerMethod,提示有异常：cannot be cast to org.springframework.web.method.HandlerMethod
+     方法二：配合RequestMappingHandlerMapping和RequestMappingHandlerAdapter使用，可以完成转换。
+    -->
+    <!--<mvc:interceptors>
+        <bean class="com.acom.filter.LoginCheckInterceptor"/>
+    </mvc:interceptors>-->
+    <!-- 基于注解的拦截器 ********** 开始 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <bean class="com.acom.filter.LoginCheckInterceptor"/>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <!-- 基于注解的拦截器 ********** 结束 -->
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!-- 不建议加二级目录名称，否则jsp和freemarker容易混淆 -->
+        <property name="templateLoaderPath" value="/pages/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="number_format">0.##########</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="template_exception_handler">ignore</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- freemarker视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <!-- 此变量值为pageContext.request, 页面使用方法：rc.contextPath -->
+        <property name="requestContextAttribute" value="rc"/>
+    </bean>
+
+    <!-- 配置SpringMVC的视图解析器，视图的位置，以及尾缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 不建议加二级目录名称，否则jsp和freemarker容易混淆 -->
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>

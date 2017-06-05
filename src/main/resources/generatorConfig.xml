@@ -5,7 +5,7 @@
 
 
     <context id="mysql" targetRuntime="MyBatis3">
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.199.249:3306/study" userId="root" password="root888!">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.199.248:3306/acom" userId="root" password="root888!">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -27,7 +27,7 @@
         </javaClientGenerator>
 
         <!-- table内部的元素有顺序要求 -->
-        <table tableName="user" domainObjectName="user">
+        <table tableName="admin_user" domainObjectName="AdminUser">
             <!--
              * property > useActualColumnNames:是否使用实际的字段名称，true时，将使用字段名称
              * columnRenamingRule : 设定命名规则，
