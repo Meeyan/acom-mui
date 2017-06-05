@@ -2,6 +2,7 @@
 
 <web-app>
     <display-name>myWeb</display-name>
+    <distributable></distributable>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -40,7 +41,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:configs/spring/application-mvc.xml</param-value>
+            <param-value>classpath:configs/spring/spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -49,6 +50,10 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/pages/jsp/404.jsp</location>
+    </error-page>
 
     <session-config>
         <session-timeout>30</session-timeout>
