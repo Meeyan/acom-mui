@@ -2,8 +2,9 @@ package com.acom.entities.mapper;
 
 import com.acom.entities.model.AdminUser;
 import com.acom.entities.model.AdminUserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AdminUserMapper {
     /**
