@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <classPathEntry location="D:\wp\idea-160927\mycom\src\main\webapp\WEB-INF\lib\mysql-connector-java-5.1.39-bin.jar"/>
+    <classPathEntry location="D:\maven-repo\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar"/>
 
 
     <context id="mysql" targetRuntime="MyBatis3">
@@ -27,7 +27,49 @@
         </javaClientGenerator>
 
         <!-- table内部的元素有顺序要求 -->
+        <!--<table tableName="ad_mod_pri_rel" domainObjectName="AdModPriRel">
+            &lt;!&ndash;
+             * property > useActualColumnNames:是否使用实际的字段名称，true时，将使用字段名称
+             * columnRenamingRule : 设定命名规则，
+             * columnOverride:列重写，比如这里，create_time主要将数据类型调整为Timestamp
+             &ndash;&gt;
+            <property name="useActualColumnNames" value="false"/>
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+        </table>-->
+
+        <!--<table tableName="ad_role_mod_rel" domainObjectName="AdRoleModRel">
+            <property name="useActualColumnNames" value="false"/>
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+        </table>
+
+        <table tableName="admin_module" domainObjectName="AdminModule">
+            <property name="useActualColumnNames" value="false"/>
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+        </table>
+
+        <table tableName="admin_role" domainObjectName="AdminRole">
+            <property name="useActualColumnNames" value="false"/>
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+        </table>
+
         <table tableName="admin_user" domainObjectName="AdminUser">
+            <property name="useActualColumnNames" value="false"/>
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+        </table>
+
+        <table tableName="privilege" domainObjectName="Privilege">
+            <property name="useActualColumnNames" value="false"/>
+            <columnRenamingRule searchString="^*" replaceString=""/>
+            <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+        </table>-->
+
+        <!-- table内部的元素有顺序要求 -->
+        <table tableName="bs_cache_table" domainObjectName="BsCacheTable">
             <!--
              * property > useActualColumnNames:是否使用实际的字段名称，true时，将使用字段名称
              * columnRenamingRule : 设定命名规则，
@@ -36,6 +78,9 @@
             <property name="useActualColumnNames" value="false"/>
             <columnRenamingRule searchString="^*" replaceString=""/>
             <columnOverride column="create_time" javaType="java.sql.Timestamp"/>
+            <columnOverride column="status" javaType="java.lang.Integer"/>
         </table>
+
+
     </context>
 </generatorConfiguration>
