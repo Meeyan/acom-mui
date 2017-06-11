@@ -6,16 +6,23 @@
        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!--
+        exeFrame专用
+    -->
+
     <!-- 1. 启用注解 -->
     <context:annotation-config/>
 
     <context:component-scan base-package="com.acom.services.**"/>
+    <context:component-scan base-package="com.acom.cache.impl.**"/>
 
     <!-- 配置文件解析 -->
     <bean name="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:configs/dbconfig.properties</value>
+                <value>classpath:configs/redis.properties</value>
             </list>
         </property>
     </bean>
@@ -76,5 +83,15 @@
         <property name="basePackage" value="com.acom.entities.mapper"/>
     </bean>
 
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.pool.maxIdle}"/>
+        <property name="maxTotal" value="${redis.pool.maxActive}"/>
+        <property name="maxWaitMillis" value="${redis.pool.maxWait}"/>
+    </bean>
+
+    <bean id="jedisShardInfo" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis.host}" type="java.lang.String"/>
+        <constructor-arg index="1" value="${redis.port}" type="int"/>
+    </bean>
 
 </beans>
