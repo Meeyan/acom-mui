@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,6 @@ public class IndexController {
 
     @Resource(name = "adminUserService")
     IAdminUserService userService;
-
 
     /**
      * 网站默认映射到该路径下，webapp下不能有index.jsp文件，或者在index.jsp中导向到'/'
@@ -89,13 +89,23 @@ public class IndexController {
     @LoginCheckAnnotation(type = "")
     public JSONObject checkAdminUser(HttpServletRequest request, HttpServletResponse response) {
 
+        String retCode = "success";
+        String retMsg = "";
+        // 已经登陆的-后台首页
+        AdminUser adminUser = (AdminUser) request.getSession().getAttribute(Constants.AdminConstant.ADMIN_SESSION_USER);
+        if (null != adminUser) {
+            try {
+                response.sendRedirect("/admin");
+            } catch (IOException e) {
+
+            }
+        }
+
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
 
-        String retCode = "success";
-        String retMsg = "";
+
         // 数据为空，登陆页面
-        AdminUser adminUser = null;
         if (CommonUtils.isEmpty(userName) || CommonUtils.isEmpty(password)) {
             retCode = "error";
             retMsg = "用户名或密码为空";
@@ -123,7 +133,7 @@ public class IndexController {
         list.add(adminUserById);
         list.add(adminUserById);
 
-        retMap.put("userList", list);
+        retMap.put("userList", 1);
 
         return JSONObject.fromObject(retMap);
     }

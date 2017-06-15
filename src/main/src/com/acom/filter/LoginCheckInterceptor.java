@@ -31,6 +31,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         String requestURI = request.getRequestURI();    // 去除host的url
         Enumeration headerNames = request.getHeaderNames();
         String contentType = request.getHeader(" Content-Type");
+        System.out.println(contentType);
 
         HandlerMethod handlerMethod = null;
         try {
