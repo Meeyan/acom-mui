@@ -1,7 +1,7 @@
 package com.acom.controller.web;
 
 import com.acom.entities.model.AdminUser;
-import com.acom.services.sv.IUserService;
+import com.acom.services.sv.IAdminUserService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +18,8 @@ public class IndexController {
 
     private Logger log = Logger.getLogger(IndexController.class);
 
-    @Resource(name = "userService")
-    IUserService userService;
+    @Resource(name = "adminUserService")
+    IAdminUserService userService;
 
     /**
      * 网站默认映射到该路径下，webapp下不能有index.jsp文件，或者在index.jsp中导向到'/'
@@ -31,14 +31,13 @@ public class IndexController {
         ModelAndView view = new ModelAndView();
         view.setViewName("jsp/index");
         AdminUser adminUserById = userService.getAdminUserById(1);
-        System.out.println(adminUserById.getNickName());
 
         AdminUser newUser = new AdminUser();
         newUser.setLoginAcct("zhangsan");
         newUser.setNickName("zhangsan");
         newUser.setRealName("张三");
 
-        userService.addAdminUser(newUser);
+        //userService.addAdminUser(newUser);
 
         return view;
     }

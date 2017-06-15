@@ -2,6 +2,8 @@ package com.acom.filter;
 
 import com.acom.cache.RedisCacheFactory;
 import com.acom.cache.impl.PrivilegeCacheImpl;
+import com.acom.entities.model.AdminUser;
+import com.acom.util.Constants;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,6 +30,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         String pathInfo = request.getPathInfo();
         String requestURI = request.getRequestURI();    // 去除host的url
         Enumeration headerNames = request.getHeaderNames();
+        String contentType = request.getHeader(" Content-Type");
 
         HandlerMethod handlerMethod = null;
         try {
@@ -59,6 +62,14 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         } else if (type.equals(LoginCheckAnnotation.ADMIN)) {
             // todo 检查后台用户是否登陆
             System.out.println("准备验证后台登陆");
+
+            AdminUser adminUser = (AdminUser) request.getSession().getAttribute(Constants.AdminConstant.ADMIN_SESSION_USER);
+
+            if (null == adminUser) {
+                // 跳转到登陆页面
+                response.sendRedirect("/admin/login.html");
+            }
+
             Map map = RedisCacheFactory.getCacheWithClass(PrivilegeCacheImpl.class, requestURI);
             if (map.size() > 0) {
                 Object obj = map.get(PrivilegeCacheImpl.IS_ACCESS); // 视情况决定之的类型
@@ -69,7 +80,6 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
                     // #导航到错误页面还是提示消息，待定
                 }
             }
-
         }
 
         return super.preHandle(request, response, handler);

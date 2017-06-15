@@ -3,6 +3,7 @@ package com.acom.services.impl;
 import com.acom.entities.mapper.AdminUserMapper;
 import com.acom.entities.mapper.PrivilegeMapper;
 import com.acom.entities.model.AdminUser;
+import com.acom.entities.model.AdminUserExample;
 import com.acom.entities.model.Privilege;
 import com.acom.entities.model.PrivilegeExample;
 import com.acom.services.sv.IAdminUserService;
@@ -28,6 +29,16 @@ public class AdminUserServiceImpl implements IAdminUserService {
 
     public AdminUser getAdminUserById(int userId) {
         return this.adminUserMapper.selectByPrimaryKey(1);
+    }
+
+    public AdminUser getAdminUserByNameAndPwd(String userName, String passWd) {
+        AdminUserExample example = new AdminUserExample();
+        example.createCriteria().andLoginAcctEqualTo(userName).andPasswdEqualTo(passWd);
+        List<AdminUser> adminUserList = adminUserMapper.selectByExample(example);
+        if (null != adminUserList && adminUserList.size() == 1) {
+            return adminUserList.get(0);
+        }
+        return null;
     }
 
     public boolean addAdminUser(AdminUser adminUser) {

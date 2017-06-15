@@ -20,6 +20,15 @@ public interface IAdminUserService {
     public AdminUser getAdminUserById(int userId);
 
     /**
+     * 根据密码和用户名查询用户
+     *
+     * @param userName
+     * @param passWd
+     * @return
+     */
+    public AdminUser getAdminUserByNameAndPwd(String userName, String passWd);
+
+    /**
      * 新增管理员账号
      *
      * @param adminUser 管理用户
