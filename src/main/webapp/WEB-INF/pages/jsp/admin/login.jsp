@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="form-bottom">
-                        <form role="form" action="/admin/doLogin.html" method="post" class="login-form">
+                        <form role="form" action="/admin/doLogin.html" method="post" class="login-form" id="loginForm">
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">账号：</label>
                                 <input type="text" name="userName" placeholder="管理员账号" class="form-username form-control" id="form-username">
@@ -130,11 +130,11 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                    alert(data.retMsg)
-
+                    if (data.retCode == 'success') {
+                        $("#loginForm").submit();
+                    }
                 },
-                error:function(err){
-                    alert(err);
+                error: function (err) {
                     console.log(err.responseText);
                 }
             });
