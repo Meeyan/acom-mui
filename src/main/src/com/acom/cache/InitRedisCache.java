@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * spring启动时，采用bean的方式初始化redis缓存，依赖配置表
  *
- * @autho zhaojy
+ * @author zhaojy
  * @createTime 2017-06-08
  */
 public class InitRedisCache implements InitializingBean {

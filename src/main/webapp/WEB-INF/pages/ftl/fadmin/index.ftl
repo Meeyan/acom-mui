@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta charset="utf-8">
@@ -7,13 +7,13 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="/ui/sui/ui/global/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${APP_OM_PATH}/ui/sui/ui/global/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link href="/ui/sui/ui/global/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="${APP_OM_PATH}/ui/sui/ui/global/font-awesome/css/font-awesome.css"/>
     <!-- Theme style -->
-    <link rel="stylesheet" href="/ui/sui/adminlte/dist/css/AdminLTE.css">
-    <link rel="stylesheet" href="/ui/sui/adminlte/dist/css/skins/_all-skins.css">
-    <link href="/ui/sui/min/css/supershopui.common.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="${APP_OM_PATH}/ui/sui/adminlte/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="${APP_OM_PATH}/ui/sui/adminlte/dist/css/skins/_all-skins.css">
+    <link rel="stylesheet" href="${APP_OM_PATH}/ui/sui/min/css/supershopui.common.min.css"/>
     <style type="text/css">
         html {
             overflow: hidden;
@@ -22,8 +22,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="/ui/sui/ot/js/html5shiv.min.js"></script>
-    <script src="/ui/sui/ot/js/respond.min.js"></script>
+    <script src="${APP_OM_PATH}/ui/sui/ot/js/html5shiv.min.js"></script>
+    <script src="${APP_OM_PATH}/ui/sui/ot/js/respond.min.js"></script>
     <![endif]-->
 </head>
 
@@ -204,7 +204,7 @@
                                     <a href="#" class="btn btn-default btn-flat">个人中心</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">退出</a>
+                                    <a href="${APP_OM_PATH}/admin/logout.html" class="btn btn-default btn-flat">退出</a>
                                 </div>
                             </li>
                         </ul>
@@ -236,7 +236,7 @@
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
                     <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
+                    <span class="input-group-btn">
                             <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                                 <i class="fa fa-search"></i>
                             </button>
@@ -259,7 +259,7 @@
                 <i class="fa fa-backward"></i>
             </button>
             <nav class="page-tabs menuTabs tab-ui-menu" id="tab-menu">
-                <#-- tabs -->
+            <#-- tabs -->
                 <div class="page-tabs-content" style="margin-left: 0px;">
 
                 </div>
@@ -281,7 +281,7 @@
             <button class="roll-nav roll-right fullscreen"><i class="fa fa-arrows-alt"></i></button>
         </div>
         <div class="content-iframe " style="background-color: #ffffff; ">
-            <#-- tab内容 -->
+        <#-- tab内容 -->
             <div class="tab-content " id="tab-content">
 
             </div>
@@ -471,10 +471,10 @@
 <!-- ./wrapper -->
 <!-- REQUIRED JS SCRIPTS -->
 <!-- jQuery 2.2.3 -->
-<script src="/ui/sui/ui/global/jQuery/jquery.min.js"></script>
+<script src="${APP_OM_PATH}/ui/sui/ui/global/jQuery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="/ui/sui/ui/global/bootstrap/js/bootstrap.min.js"></script>
-<script src="/ui/sui/min/js/supershopui.common.js"></script>
+<script src="${APP_OM_PATH}/ui/sui/ui/global/bootstrap/js/bootstrap.min.js"></script>
+<script src="${APP_OM_PATH}/ui/sui/min/js/supershopui.common.js"></script>
 
 
 <script type="text/javascript">

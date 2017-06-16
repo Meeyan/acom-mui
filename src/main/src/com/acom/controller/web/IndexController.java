@@ -29,7 +29,7 @@ public class IndexController {
     @RequestMapping(value = "/")
     public ModelAndView index() {
         ModelAndView view = new ModelAndView();
-        view.setViewName("jsp/index");
+        view.setViewName("jweb/index");
         AdminUser adminUserById = userService.getAdminUserById(1);
 
         AdminUser newUser = new AdminUser();
@@ -45,7 +45,7 @@ public class IndexController {
     @RequestMapping(value = "/login.html")
     public ModelAndView login() {
         ModelAndView view = new ModelAndView();
-        view.setViewName("jsp/login");
+        view.setViewName("login");
         return view;
     }
 }

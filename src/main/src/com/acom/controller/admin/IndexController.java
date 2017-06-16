@@ -1,15 +1,16 @@
 package com.acom.controller.admin;
 
+import com.acom.controller.BaseController;
 import com.acom.entities.model.AdminUser;
 import com.acom.filter.LoginCheckAnnotation;
 import com.acom.services.sv.IAdminUserService;
 import com.acom.util.CommonUtils;
 import com.acom.util.Constants;
 import com.acom.util.CryptUtil;
+import com.acom.util.RandomValidateCode;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,9 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,7 +28,7 @@ import java.util.Map;
 @Controller("adminController")  // 必须加这个，否则会和web下的indexController出现冲突，如果没有重名的，可以忽略
 @RequestMapping(value = "/admin")
 @LoginCheckAnnotation(type = LoginCheckAnnotation.ADMIN)
-public class IndexController {
+public class IndexController extends BaseController {
 
     private Logger log = Logger.getLogger(IndexController.class);
 
@@ -43,20 +42,7 @@ public class IndexController {
      */
     @RequestMapping(value = "/")
     public ModelAndView index(HttpServletRequest request) {
-
-        ModelMap model = new ModelMap();
-        model.addAttribute("loginName", "wwang无");
-
-        ModelAndView view = new ModelAndView("", model);
-        view.setViewName("ftl/index");
-
-
-        AdminUser user = new AdminUser();
-        user.setNickName("李四1");
-        user.setPhone("15210028606");
-
-        view.addObject("user", user);
-        return view;
+        return this.getFtlAdminMV("index");
     }
 
     /**
@@ -69,111 +55,149 @@ public class IndexController {
     @RequestMapping(value = "/login.html")
     @LoginCheckAnnotation(type = "")
     public ModelAndView login(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("jsp/admin/login");
+        ModelAndView view = this.getFtlAdminMV("login");
         AdminUser adminUser = (AdminUser) request.getSession().getAttribute(Constants.AdminConstant.ADMIN_SESSION_USER);
         if (null != adminUser) {
             // 跳转到后台首页
-            view.setViewName(("redirect:/admin/"));
+            this.setFtlAdminViewName(view, "index");
         }
         return view;
     }
 
     /**
-     * 登陆方法
+     * 登陆方法 - 验证名称是否正确
+     * 1. 判断当前是否由用户登录，有登录的话，直接跳转到后台
+     * 2. 验证密码和用户名
      *
-     * @return
+     * @return JSONObject
+     * @author zhaojy
+     * @createTime 2017-06-15
      */
     @RequestMapping(value = "/checkUser.html")
     @ResponseBody
     @LoginCheckAnnotation(type = "")
     public JSONObject checkAdminUser(HttpServletRequest request, HttpServletResponse response) {
-
+        String method = request.getMethod();
         String retCode = "success";
         String retMsg = "";
-        // 已经登陆的-后台首页
-        AdminUser adminUser = (AdminUser) request.getSession().getAttribute(Constants.AdminConstant.ADMIN_SESSION_USER);
-        if (null != adminUser) {
-            try {
-                response.sendRedirect("/admin");
-            } catch (IOException e) {
-
-            }
-        }
-
-        String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
-
-
-        // 数据为空，登陆页面
-        if (CommonUtils.isEmpty(userName) || CommonUtils.isEmpty(password)) {
+        if ("GET".equalsIgnoreCase(method)) {
             retCode = "error";
-            retMsg = "用户名或密码为空";
+            retMsg = "异常登陆";
         } else {
-            String enPwd = CryptUtil.sha1(password);
-            adminUser = userService.getAdminUserByNameAndPwd(userName, enPwd);
+            String contextPath = request.getContextPath();    // 去除host的url
+            // 已经登陆的-后台首页
+            AdminUser adminUser = (AdminUser) request.getSession().getAttribute(Constants.AdminConstant.ADMIN_SESSION_USER);
             if (null != adminUser) {
-                // 跳转到管理控制页面
-                request.getSession().setAttribute(Constants.AdminConstant.ADMIN_SESSION_USER, adminUser);
-            } else {
+                try {
+                    response.sendRedirect(contextPath + "/admin");
+                } catch (IOException e) {
+                    log.error("----登录验证跳转异常:" + e.getMessage());
+                }
+            }
+
+            String userName = request.getParameter("userName");
+            String password = request.getParameter("password");
+            String imageCode = request.getParameter("imageCode");
+            // 数据为空，登陆页面
+            if (CommonUtils.isEmpty(userName) || CommonUtils.isEmpty(password)) {
                 retCode = "error";
-                retMsg = "用户名或密码错误";
+                retMsg = "用户名或密码为空";
+            } else {
+                String sessionId = request.getSession().getId();
+                String sessionImgCode = (String) request.getSession().getAttribute(sessionId + Constants.AdminConstant.ADMIN_IMAGE_CODE_KEY);
+                if (CommonUtils.isEmpty(imageCode) || CommonUtils.isEmpty(imageCode) || !imageCode.equalsIgnoreCase(sessionImgCode)) {
+                    retCode = "error";
+                    retMsg = "图片验证码不正确";
+                } else {
+                    String enPwd = CryptUtil.sha1(password);
+                    adminUser = userService.getAdminUserByNameAndPwd(userName, enPwd);
+                    if (null == adminUser) {
+                        retCode = "error";
+                        retMsg = "用户名或密码错误";
+                    }
+                }
             }
         }
-
         Map<String, Object> retMap = new HashMap<>();
         retMap.put("retCode", retCode);
         retMap.put("retMsg", retMsg);
-        List<AdminUser> list = new ArrayList();
-
-        AdminUser adminUserById = userService.getAdminUserById(1);
-
-        list.add(adminUserById);
-        list.add(adminUserById);
-        list.add(adminUserById);
-        list.add(adminUserById);
-
-        retMap.put("userList", 1);
-
         return JSONObject.fromObject(retMap);
     }
 
     /**
      * 登陆方法
+     * 校验用户名和密码，设定session，跳转路径
      *
-     * @return
+     * @return ModelAndView
+     * @author zhaojy
+     * @createTime 2017-06-15
      */
     @RequestMapping(value = "/doLogin.html")
     @LoginCheckAnnotation(type = "")
     public ModelAndView doLogin(HttpServletRequest request) {
-
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
 
-        ModelAndView view = new ModelAndView();
+        ModelAndView view = this.getFtlAdminMV("login");  // 初始化为登陆的视图
 
+        String contextPath = request.getContextPath();
         // 已经登陆的-后台首页
         AdminUser adminUser = (AdminUser) request.getSession().getAttribute(Constants.AdminConstant.ADMIN_SESSION_USER);
         if (null != adminUser) {
             // 跳转到后台首页
-            view.setViewName(("redirect:/admin/"));
+            this.setFtlAdminViewName(view, "index");
             return view;
         }
-
-        // 数据为空，登陆页面
-        if (CommonUtils.isEmpty(userName) || CommonUtils.isEmpty(password)) {
-            view.setViewName("redirect:/admin/login.html");
-            return view;
-        } else {
+        // 数据不为空，后台中心页面
+        if (!CommonUtils.isEmpty(userName) && !CommonUtils.isEmpty(password)) {
             String enPwd = CryptUtil.sha1(password);
             adminUser = userService.getAdminUserByNameAndPwd(userName, enPwd);
             if (null != adminUser) {
                 // 跳转到管理控制页面
                 request.getSession().setAttribute(Constants.AdminConstant.ADMIN_SESSION_USER, adminUser);
-                view.setViewName(("redirect:/admin/"));
+                request.getSession().setAttribute(request.getSession().getId() + Constants.AdminConstant.ADMIN_IMAGE_CODE_KEY, null);
+                this.setFtlAdminViewName(view, "index");
             }
         }
+
         return view;
+    }
+
+    /**
+     * 生成图片验证码
+     * todo 注意：生成图片验证码时，不需要返回值，如果单纯返回一个空置，会报错，view解析不到
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "getImageCode.html")
+    @LoginCheckAnnotation(type = "")
+    public void getImageCode(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("image/jpeg");          // 设置相应类型,告诉浏览器输出的内容为图片
+        response.setHeader("Pragma", "No-cache");       // 设置响应头信息，告诉浏览器不要缓存此内容
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Set-Cookie", "name=value; HttpOnly");   //设置HttpOnly属性,防止Xss攻击
+        response.setDateHeader("Expire", 0);
+        RandomValidateCode randomValidateCode = new RandomValidateCode();
+        try {
+            randomValidateCode.getRandCode(request, response);// 输出图片方法
+        } catch (Exception e) {
+            log.error("----生成图片验证码错误:" + e.getMessage());
+        }
+    }
+
+    /**
+     * 注销登录方法
+     *
+     * @param request
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "logout.html")
+    @LoginCheckAnnotation(type = "")
+    public ModelAndView logout(HttpServletRequest request) {
+        request.getSession().setAttribute(Constants.AdminConstant.ADMIN_SESSION_USER, null);
+        request.getSession().setAttribute(request.getSession().getId() + Constants.AdminConstant.ADMIN_IMAGE_CODE_KEY, null);
+        return this.getFtlAdminMV("login");  // 初始化为登陆的视图
     }
 
     /**
@@ -183,8 +207,6 @@ public class IndexController {
      */
     @RequestMapping(value = "")
     public ModelAndView indexDef() {
-        ModelAndView view = new ModelAndView();
-        view.setViewName("ftl/index");
-        return view;
+        return this.getFtlAdminMV("index");  // 初始化为登陆的视图
     }
 }

@@ -14,5 +14,7 @@ public interface Constants {
          * 后台登陆用户-session，key
          ******/
         public final static String ADMIN_SESSION_USER = "ADMIN_SESSION_USER";
+
+        public final static String ADMIN_IMAGE_CODE_KEY = "ADMIN_IMAGE_CODE_KEY";
     }
 }
