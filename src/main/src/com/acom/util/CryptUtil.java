@@ -212,7 +212,7 @@ public class CryptUtil {
             byte[] bytes = key.getBytes("UTF-8");
             return Base64Utils.encodeToString(bytes);
         } catch (UnsupportedEncodingException e) {
-            logger.error("base64encode error:" + e.getMessage());
+            logger.error("base64encode error:", e);
         }
         return "";
     }
