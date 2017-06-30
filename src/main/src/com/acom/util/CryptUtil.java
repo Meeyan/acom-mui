@@ -27,6 +27,8 @@ public class CryptUtil {
      *
      * @param enCodeStr 待加密字符串
      * @return String
+     * @author zhaojy
+     * @createTime 2017-06-14
      */
     public static String sha1(String enCodeStr) {
         try {
@@ -41,13 +43,15 @@ public class CryptUtil {
     }
 
     /**
-     * @param decript 待加密字符串
+     * @param string 待加密字符串
      * @return string
+     * @author zhaojy
+     * @createTime 2017-06-14
      */
-    public static String sha(String decript) {
+    public static String sha(String string) {
         try {
             MessageDigest digest = java.security.MessageDigest.getInstance("SHA");
-            digest.update(decript.getBytes());
+            digest.update(string.getBytes());
             byte messageDigest[] = digest.digest();
             // Create Hex String
             StringBuffer hexString = genHexString(digest);
@@ -64,6 +68,8 @@ public class CryptUtil {
      *
      * @param enCodeStr 待加密字符串
      * @return string
+     * @author zhaojy
+     * @createTime 2017-06-14
      */
     public static String md5(String enCodeStr) {
         try {
@@ -79,11 +85,13 @@ public class CryptUtil {
     }
 
     /**
-     * 加密
+     * 加密-aes(待完善)
      *
      * @param content  需要加密的内容
      * @param password 加密密码
      * @return string
+     * @author zhaojy
+     * @createTime 2017-06-14
      */
     public static byte[] encryptAES(String content, String password) {
         try {
@@ -104,14 +112,23 @@ public class CryptUtil {
         return null;
     }
 
+    /**
+     * 密文转换成16进制
+     *
+     * @param digest 你懂得
+     * @return StringBuffer
+     * @author zhaojy
+     * @createTime 2017-06-14
+     */
     private static StringBuffer genHexString(MessageDigest digest) {
         byte[] md = digest.digest();
         // 把密文转换成十六进制的字符串形式
         StringBuffer hexString = new StringBuffer();
         // 字节数组转换为 十六进制 数
-        for (int i = 0; i < md.length; i++) {
+        int i = 0;
+        for (; i < md.length; i++) {
 
-            /**
+            /*
              * 0x表示16进制，F=15，在16进制中为16，FF=15*16^1+15*16^0=255 <p/>
              * &:按位与运算，两边的数组都转为二进制（问题：负数的表示方法：按位取反再+1），然后按位与运算。
              */
@@ -128,11 +145,13 @@ public class CryptUtil {
     }
 
     /**
-     * 解密
+     * 解密 - aes
      *
      * @param content  待解密内容
      * @param password 解密密钥
-     * @return bytes
+     * @return bytes[]
+     * @author zhaojy
+     * @createTime 2017-06-14
      */
     public static byte[] decryptAES(byte[] content, String password) {
         try {
@@ -178,7 +197,6 @@ public class CryptUtil {
      *
      * @param key 字符串
      * @return string
-     * @throws Exception
      * @author zhaojy
      * @createTime 2017-06-28
      */
