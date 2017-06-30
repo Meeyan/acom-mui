@@ -1,7 +1,11 @@
 package com.acom.util;
 
+import org.apache.log4j.Logger;
+import org.springframework.util.Base64Utils;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -16,6 +20,8 @@ import java.security.SecureRandom;
  */
 public class CryptUtil {
 
+    private static Logger logger = Logger.getLogger(CryptUtil.class);
+
     /**
      * sha1-加密
      *
@@ -29,7 +35,7 @@ public class CryptUtil {
             StringBuffer hexString = genHexString(digest);
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("sha1 error:", e);
         }
         return "";
     }
@@ -48,7 +54,7 @@ public class CryptUtil {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("sha error:", e);
         }
         return "";
     }
@@ -67,7 +73,7 @@ public class CryptUtil {
             //加密后的字符串
             return genHexString(md5).toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("md5 error:", e);
         }
         return "";
     }
@@ -93,7 +99,7 @@ public class CryptUtil {
             return result; // 加密
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | UnsupportedEncodingException
                 | IllegalBlockSizeException | BadPaddingException e) {
-            e.printStackTrace();
+            logger.error("encryptAES error:", e);
         }
         return null;
     }
@@ -140,7 +146,7 @@ public class CryptUtil {
             byte[] result = cipher.doFinal(content);
             return result; // 加密
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-            e.printStackTrace();
+            logger.error("decryptAES error:", e);
         }
         return null;
     }
@@ -148,28 +154,48 @@ public class CryptUtil {
     /**
      * BASE64解密
      *
-     * @param key
-     * @return
+     * @param key 字符串
+     * @return string
      * @throws Exception
+     * @author zhaojy
+     * @createTime 2017-06-28
      */
-    public static String decryptBASE64(String key) {
-
+    public static String base64Decode(String key) {
+        if (CommonUtils.isEmpty(key)) {
+            return "";
+        }
+        byte[] bytes = Base64Utils.decodeFromString(key);
+        try {
+            return new String(bytes, "UTF-8");
+        } catch (IOException e) {
+            logger.error("base64decode error:", e);
+        }
         return "";
     }
 
     /**
      * BASE64加密
      *
-     * @param key
-     * @return
+     * @param key 字符串
+     * @return string
      * @throws Exception
+     * @author zhaojy
+     * @createTime 2017-06-28
      */
-    public static String encryptBASE64(String key) {
+    public static String base64Encode(String key) {
+        if (CommonUtils.isEmpty(key)) {
+            return "";
+        }
 
+        /*
+         * 不建议使用自带的编码类，因为自带的编码类编码后，在每76个字符长度会换行（RFC2045约定）不建议使用BASE64Encoder
+         */
+        try {
+            byte[] bytes = key.getBytes("UTF-8");
+            return Base64Utils.encodeToString(bytes);
+        } catch (UnsupportedEncodingException e) {
+            logger.error("base64encode error:" + e.getMessage());
+        }
         return "";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(CryptUtil.sha1("aaa"));
     }
 }
