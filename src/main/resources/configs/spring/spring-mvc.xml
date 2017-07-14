@@ -69,6 +69,7 @@
             <mvc:exclude-mapping path="/**/*.png"/>
             <mvc:exclude-mapping path="/**/*.jpg"/>
             <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
             <mvc:exclude-mapping path="/**/*.eot"/>
             <mvc:exclude-mapping path="/**/*.svg"/>
             <mvc:exclude-mapping path="/**/*.ttf"/>
