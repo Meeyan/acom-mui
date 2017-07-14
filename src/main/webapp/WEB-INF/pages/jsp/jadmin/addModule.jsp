@@ -8,50 +8,44 @@
 <!--[if !IE]><!-->
 <html lang="en">
 <!--<![endif]-->
-<!-- BEGIN HEAD -->
 <head>
-    <title>角色管理</title>
-    <%-- 页面公共头部文件 --%>
+    <title>SuperMgr后台框架</title>
     <jsp:include page="headComm.jsp"/>
-    <link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/plugins/jqgrid/jqgrid.css'/>
-    <link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/plugins/wdtree/tree.css'/>
-    <script src='<%request.getParameter("APP_OM_PATH");%>/ui/sui/plugins/datepicker/WdatePicker.js'></script>
+    <style type="text/css">
+        .step-content {
+            min-height: 320px !important;
+        }
+    </style>
 </head>
 <body>
-<!-- Main content -->
-<section class="content">
-    <div class="ui-layout" id="layout" style="height: 100%; width: 100%;">
-        <div class="ui-layout-west">
-            <div class="west-Panel">
-                <div class="panel-Title">角色列表- <c:out value="${APP_OM_PATH}"/> </div>
-                <div id="itemTree"></div>
+<form id="modelForm" class="form" action="" method="post">
+    <div class="formDiv">
+        <div class="widget-body">
+            <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+                <div class="step-pane active" id="step-1" style="margin-left: 0px; margin-top: 15px; margin-right: 30px;">
+                    <input id="Id" type="hidden" value="@ViewBag.ModuleId"/>
+                    <table class="form">
+                        <tr>
+                            <th class="formTitle">模块名称：<font face="宋体">*</font></th>
+                            <td class="formValue" colspan="2">
+                                <input id="moduleName" type="text" name="moduleName" class="form-control" placeholder="请输入模块名称" isvalid="yes" checkexpession="NotNull"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="formTitle" valign="top" style="padding-top: 4px;">模块描述：</th>
+                            <td class="formValue" colspan="3">
+                                <textarea id="moduleDesc" name="moduleDesc" class="form-control" style="height: 70px;"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="ui-layout-center">
-            <div class="center-Panel">
-                <div class="panel-Title">包含模块</div>
-                <div class="titlePanel">
-                    <div class="title-search">
-                        <div class="btn-group">
-                            <a class="btn btn-default lr-replace"><i class="fa fa-refresh"></i>&nbsp;刷新</a>
-                            <a class="btn btn-default" id="btn-add-mudole"><i class="fa fa-plus"></i>&nbsp;新增模块</a>
-                            <a class="btn btn-default lr-add"><i class="fa fa-plus"></i>&nbsp;新增权限</a>
-                            <a class="btn btn-default lr-edit"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
-                            <a class="btn btn-default lr-delete"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-                        </div>
-                    </div>
-                    <div class="toolbar moduletoolbar">
-                        <script></script>
-                    </div>
-                </div>
-                <div class="gridPanel">
-                    <table id="gridTable"></table>
-                </div>
-            </div>
+        <div class="form-button" id="wizard-actions" style="text-align: center;">
+            <a id="btn_finish" disabled class="btn btn-success">完成</a>
         </div>
     </div>
-</section>
-
+</form>
 
 </body>
 </html>
@@ -59,35 +53,23 @@
 <%-- 页面公共底部js文件 --%>
 <jsp:include page="footComm.jsp"/>
 
-<script src='<c:out value="${APP_OM_PATH}"/>/ui/sui/plugins/jqgrid/grid.locale-cn.js'></script>
-<script src='<c:out value="${APP_OM_PATH}"/>/ui/sui/plugins/jqgrid/jqgrid.js'></script>
 <script src='<c:out value="${APP_OM_PATH}"/>/ui/sui/plugins/validator/validator.js'></script>
-<script src='<c:out value="${APP_OM_PATH}"/>/ui/sui/plugins/layout/jquery.layout.js'></script>
 <script src='<c:out value="${APP_OM_PATH}"/>/ui/sui/plugins/wdtree/tree.js'></script>
-<script src='<c:out value="${APP_OM_PATH}"/>/ui/sui/supermgr/Module/ModuleMgr/ModuleMgr.js'></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var module = new ModuleMgr();
-        module.initGridPage();
-        module.loadTree();
-        module.loadGrid();
-        $(window).resize();
-
-        $("#btn-add-mudole").click(function () {
-            var parentId = $("#gridTable-button").jqGridRowValue("Id");
-            $.fn.modalOpen({
-                id: "buttonForm",
-                title: '添加模块',
-                url: '/admin/addModule.html',
-                width: "550px",
-                height: "400px",
-                callBack: function (iframeId) {
-                    top.frames[iframeId].buttonAcceptClick(function (data) {
-                        exports.options.ButtonJson.push(data);
-                        exports.buttonListToListTreeJson(exports.options.ButtonJson);
-                        window.ButtonJson = exports.options.ButtonJson;
-                    });
+        $("#btn_finish").click(function () {
+            if (!$('#modelForm').Validform()) {
+                return false;
+            }
+            $.ajax({
+                type: 'post',
+                url: '/admin/system/saveModule.html',
+                data: $('#modelForm').serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    $.fn.modalMsg("提交成功", "success");
+                    $.fn.modalClose();
                 }
             });
         });

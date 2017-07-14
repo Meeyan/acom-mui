@@ -479,7 +479,7 @@
 
 <script type="text/javascript">
     $(function () {
-        addTabs(({id: '10008', title: '欢迎页', close: false, url: '../admin/dashboard.html'}));
+        addTabs(({id: '400001', title: '权限管理', close: false, url: '/admin/roles.html'}));
         App.fixIframeCotent();
         var menus = [
             {id: "10010", text: "我的工作台", isHeader: true},
@@ -503,11 +503,9 @@
                     }
                 ]
             },
-
             {
                 id: "10001",
                 text: "基础UI",
-
                 icon: "fa fa-circle-o",
                 children: [
                     {id: "10004", text: "按钮", url: "../components/buttons.html", targetType: "iframe-tab", icon: "fa fa-square"},
@@ -538,7 +536,6 @@
             {
                 id: "10202",
                 text: "插件",
-
                 targetType: "iframe-tab",
                 icon: "fa fa-circle-o",
                 children: [
@@ -559,7 +556,6 @@
             {
                 id: "10208",
                 text: "表格组件",
-
                 icon: "fa fa-circle-o",
                 children: [
                     {id: "10211", text: "bootstraptable表格", targetType: "iframe-tab", url: "../tables/basetable.html", icon: "fa fa-table"},
@@ -568,69 +564,82 @@
                 ]
             },
             {
-                id: "10209", text: "通用模板", isOpen: false, icon: "fa fa-circle-o", children: [
-                {id: "10214", text: "企业站", targetType: "blank", url: "http://www.supermgr.cn", icon: "fa fa-circle-o"}//,
-                //{ id: "10215", text: "微信端", targetType: "blank", url: "../template/test2.html", icon: "fa fa-circle-o" }
-            ]
-
+                id: "10209", text: "通用模板", isOpen: false, icon: "fa fa-circle-o",
+                children: [
+                    {id: "10214", text: "企业站", targetType: "blank", url: "http://www.supermgr.cn", icon: "fa fa-circle-o"}//,
+                    //{ id: "10215", text: "微信端", targetType: "blank", url: "../template/test2.html", icon: "fa fa-circle-o" }
+                ]
             },
 
             {
-                id: "20209", text: "布局", isOpen: false, icon: "fa fa-circle-o", children: [
-                {id: "20214", text: "盒式布局", targetType: "blank", url: "../layout/boxed.html", icon: "fa fa-circle-o"},
-                {id: "20215", text: "自适应布局", targetType: "blank", url: "../layout/fixed.html", icon: "fa fa-circle-o"},
-                {id: "20216", text: "顶部菜单", targetType: "blank", url: "../layout/top-nav.html", icon: "fa fa-circle-o"},
-                {id: "20217", text: "左侧菜单收缩", targetType: "blank", url: "../layout/collapsed-sidebar.html", icon: "fa fa-circle-o"}
-            ]
+                id: "20209", text: "布局", isOpen: false, icon: "fa fa-circle-o",
+                children: [
+                    {id: "20214", text: "盒式布局", targetType: "blank", url: "../layout/boxed.html", icon: "fa fa-circle-o"},
+                    {id: "20215", text: "自适应布局", targetType: "blank", url: "../layout/fixed.html", icon: "fa fa-circle-o"},
+                    {id: "20216", text: "顶部菜单", targetType: "blank", url: "../layout/top-nav.html", icon: "fa fa-circle-o"},
+                    {id: "20217", text: "左侧菜单收缩", targetType: "blank", url: "../layout/collapsed-sidebar.html", icon: "fa fa-circle-o"}
+                ]
+            },
+            {
+                id: "30209", text: "图表", isOpen: false, icon: "fa fa-circle-o",
+                children: [
+                    {id: "30214", text: "chart图表", targetType: "iframe-tab", url: "../charts/chartjs.html", icon: "fa fa-circle-o"},
+                    {id: "30215", text: "flot图表", targetType: "iframe-tab", url: "../charts/flot.html", icon: "fa fa-circle-o"},
+                    {id: "30216", text: "inline图表", targetType: "iframe-tab", url: "../charts/inline.html", icon: "fa fa-circle-o"},
+                    {id: "30217", text: "morris图表", targetType: "iframe-tab", url: "../charts/morris.html", icon: "fa fa-circle-o"},
+                    {
+                        id: "40001",
+                        text: "echart图表",
+                        icon: "fa fa-circle-o",
+                        children: [
+                            {id: "40002", text: "折线图", targetType: "iframe-tab", url: "../charts/echarts/echarts_line.html", icon: "fa fa-circle-o"},
+                            {id: "40003", text: "柱状图", targetType: "iframe-tab", url: "../charts/echarts/echarts_column.html", icon: "fa fa-circle-o"},
+                            {id: "40004", text: "仪表盘", targetType: "iframe-tab", url: "../charts/echarts/echarts_dashboard.html", icon: "fa fa-circle-o"},
+                            {id: "40005", text: "热力图", targetType: "iframe-tab", url: "../charts/echarts/echarts_hotMap.html", icon: "fa fa-circle-o"},
+                            {id: "40006", text: "雷达图", targetType: "iframe-tab", url: "../charts/echarts/echarts_radar.html", icon: "fa fa-circle-o"},
+                            {id: "40007", text: "k线图", targetType: "iframe-tab", url: "../charts/echarts/echarts_kLine.html", icon: "fa fa-circle-o"},
+                            {id: "40008", text: "地图", targetType: "iframe-tab", url: "../charts/echarts/echarts_map.html", icon: "fa fa-circle-o"},
+                            {id: "40009", text: "更多案例", targetType: "blank", url: "http://echarts.baidu.com/examples.html", icon: "fa fa-circle-o"}
+                        ]
+                    }
+                ]
 
             },
             {
-                id: "30209", text: "图表", isOpen: false, icon: "fa fa-circle-o", children: [
-                {id: "30214", text: "chart图表", targetType: "iframe-tab", url: "../charts/chartjs.html", icon: "fa fa-circle-o"},
-                {id: "30215", text: "flot图表", targetType: "iframe-tab", url: "../charts/flot.html", icon: "fa fa-circle-o"},
-                {id: "30216", text: "inline图表", targetType: "iframe-tab", url: "../charts/inline.html", icon: "fa fa-circle-o"},
-                {id: "30217", text: "morris图表", targetType: "iframe-tab", url: "../charts/morris.html", icon: "fa fa-circle-o"},
-                {
-                    id: "40001",
-                    text: "echart图表",
+                id: "30209", text: "页面实例", isOpen: false, icon: "fa fa-circle-o",
+                children: [
+                    {
+                        id: "30208",
+                        text: "邮件管理器",
 
-                    icon: "fa fa-circle-o",
-                    children: [
-                        {id: "40002", text: "折线图", targetType: "iframe-tab", url: "../charts/echarts/echarts_line.html", icon: "fa fa-circle-o"},
-                        {id: "40003", text: "柱状图", targetType: "iframe-tab", url: "../charts/echarts/echarts_column.html", icon: "fa fa-circle-o"},
-                        {id: "40004", text: "仪表盘", targetType: "iframe-tab", url: "../charts/echarts/echarts_dashboard.html", icon: "fa fa-circle-o"},
-                        {id: "40005", text: "热力图", targetType: "iframe-tab", url: "../charts/echarts/echarts_hotMap.html", icon: "fa fa-circle-o"},
-                        {id: "40006", text: "雷达图", targetType: "iframe-tab", url: "../charts/echarts/echarts_radar.html", icon: "fa fa-circle-o"},
-                        {id: "40007", text: "k线图", targetType: "iframe-tab", url: "../charts/echarts/echarts_kLine.html", icon: "fa fa-circle-o"},
-                        {id: "40008", text: "地图", targetType: "iframe-tab", url: "../charts/echarts/echarts_map.html", icon: "fa fa-circle-o"},
-                        {id: "40009", text: "更多案例", targetType: "blank", url: "http://echarts.baidu.com/examples.html", icon: "fa fa-circle-o"}
-                    ]
-                }
-            ]
-
+                        icon: "fa fa-circle-o",
+                        children: [
+                            {id: "30211", text: "邮件管理", targetType: "iframe-tab", url: "../pages/mailbox/mailbox.html", icon: "fa fa-table"},
+                            {id: "30212", text: "阅读邮件", targetType: "iframe-tab", url: "../pages/mailbox/read-mail.html", icon: "fa fa-table"},
+                            {id: "30213", text: "发送邮件", targetType: "iframe-tab", url: "../pages/mailbox/compose.html", icon: "fa fa-table"}
+                        ]
+                    },
+                    {
+                        id: "40208",
+                        text: "SuperMgr后台Demo",
+                        icon: "fa fa-circle-o",
+                        targetType: "blank", url: "../pages/supermgr/index.html"
+                    }
+                ]
             },
             {
-                id: "30209", text: "页面实例", isOpen: false, icon: "fa fa-circle-o", children: [
-                {
-                    id: "30208",
-                    text: "邮件管理器",
-
-                    icon: "fa fa-circle-o",
-                    children: [
-                        {id: "30211", text: "邮件管理", targetType: "iframe-tab", url: "../pages/mailbox/mailbox.html", icon: "fa fa-table"},
-                        {id: "30212", text: "阅读邮件", targetType: "iframe-tab", url: "../pages/mailbox/read-mail.html", icon: "fa fa-table"},
-                        {id: "30213", text: "发送邮件", targetType: "iframe-tab", url: "../pages/mailbox/compose.html", icon: "fa fa-table"}
-                    ]
-                },
-                {
-                    id: "40208",
-                    text: "SuperMgr后台Demo",
-                    icon: "fa fa-circle-o",
-                    targetType: "blank", url: "../pages/supermgr/index.html"
-                }
-            ]
-
+                id: "40000", text: "系统设置", isOpen: false, icon: "fa fa-cog",
+                children: [
+                    {id: "40001", text: '角色管理', targetType: "iframe-tab", url: "/admin/roles.html", icon: "fa fa-circle-o"},
+                    {
+                        id: "40208",
+                        text: "SuperMgr后台Demo",
+                        icon: "fa fa-circle-o",
+                        targetType: "blank", url: "../pages/supermgr/index.html"
+                    }
+                ]
             }
+
         ];
 
         $('.sidebar-menu').sidebarMenu({data: menus, param: {strUser: 'admin'}});

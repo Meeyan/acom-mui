@@ -122,7 +122,6 @@
     jQuery(document).ready(function () {
         // 后台背景图片
         $.backstretch("${APP_OM_PATH}/ui/images/1.jpg");
-
         /*
          Form validation
          */

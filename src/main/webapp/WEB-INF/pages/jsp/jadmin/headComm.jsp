@@ -1,14 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-<h2>admin pages</h2>
-<h3>${loginName }</h3>
-<h3>${sex }</h3>
-</body>
-</html>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- Bootstrap 3.3.6 -->
+<link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/ui/global/bootstrap/css/bootstrap.min.css'>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/ui/global/font-awesome/css/font-awesome.css'/>
+<!-- Theme style -->
+<link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/adminlte/dist/css/AdminLTE.css'>
+<link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/adminlte/dist/css/skins/_all-skins.min.css'>
+<link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/min/css/supershopui.common.min.css'/>
+
+<link rel="stylesheet" href='<%request.getParameter("APP_OM_PATH");%>/ui/sui/supermgr/Base/css/common.css'/>
+
+<style>
+    html, body {
+        overflow: hidden;
+    }
+</style>
