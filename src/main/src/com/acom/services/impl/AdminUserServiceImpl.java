@@ -1,11 +1,10 @@
 package com.acom.services.impl;
 
+import com.acom.entities.mapper.AdminModuleMapper;
+import com.acom.entities.mapper.AdminRoleMapper;
 import com.acom.entities.mapper.AdminUserMapper;
 import com.acom.entities.mapper.PrivilegeMapper;
-import com.acom.entities.model.AdminUser;
-import com.acom.entities.model.AdminUserExample;
-import com.acom.entities.model.Privilege;
-import com.acom.entities.model.PrivilegeExample;
+import com.acom.entities.model.*;
 import com.acom.services.sv.IAdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +26,18 @@ public class AdminUserServiceImpl implements IAdminUserService {
     @Autowired
     private PrivilegeMapper privilegeMapper;
 
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
+
+    @Autowired
+    private AdminModuleMapper adminModuleMapper;
+
+    @Override
     public AdminUser getAdminUserById(int userId) {
         return this.adminUserMapper.selectByPrimaryKey(1);
     }
 
+    @Override
     public AdminUser getAdminUserByNameAndPwd(String userName, String passWd) {
         AdminUserExample example = new AdminUserExample();
         example.createCriteria().andLoginAcctEqualTo(userName).andPasswdEqualTo(passWd);
@@ -41,14 +48,28 @@ public class AdminUserServiceImpl implements IAdminUserService {
         return null;
     }
 
+    @Override
     public boolean addAdminUser(AdminUser adminUser) {
         int insert = this.adminUserMapper.insertSelective(adminUser);
         return insert > 0;
     }
 
+    @Override
     public List<Privilege> getAllPrivileges() {
         PrivilegeExample example = new PrivilegeExample();
         PrivilegeExample.Criteria criteria = example.createCriteria();
         return privilegeMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<AdminRole> getRoleList() {
+        AdminRoleExample example = new AdminRoleExample();
+        example.createCriteria().andIdGreaterThan(0);
+        return adminRoleMapper.selectByExample(example);
+    }
+
+    @Override
+    public boolean saveAdminModule(AdminModule adminModule) {
+        return adminModuleMapper.insert(adminModule) > 0;
     }
 }

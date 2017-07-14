@@ -1,6 +1,7 @@
 package com.acom.controller.admin;
 
 import com.acom.controller.BaseController;
+import com.acom.entities.model.AdminRole;
 import com.acom.entities.model.AdminUser;
 import com.acom.filter.LoginCheckAnnotation;
 import com.acom.services.sv.IAdminUserService;
@@ -8,6 +9,7 @@ import com.acom.util.CommonUtils;
 import com.acom.util.Constants;
 import com.acom.util.CryptUtil;
 import com.acom.util.RandomValidateCode;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -201,12 +205,70 @@ public class IndexController extends BaseController {
     }
 
     /**
+     * 角色列表-page
+     *
+     * @return ModelAndView
+     * @author zhaojy
+     * @createTime 2017-07-14
+     */
+    @RequestMapping(value = "/roles.html")
+    public ModelAndView roleView() {
+        List<AdminRole> roleList = userService.getRoleList();
+        ModelAndView view = this.getJspAdminMV("roleList");
+        view.addObject("roleList", roleList);
+        return view;
+    }
+
+    /**
+     * 角色列表-data
+     *
+     * @return ModelAndView
+     * @author zhaojy
+     * @createTime 2017-07-14
+     */
+    @RequestMapping(value = "/loadRoleData.html")
+    @ResponseBody
+    public JSONArray loadRoleData() {
+        List<AdminRole> roleList = userService.getRoleList();
+        List<Map> dataList = new ArrayList<>();
+        // 树中的数据只能是字符串，不能为其他类型
+        for (AdminRole role : roleList) {
+            Map<String, Object> tmpMap = new HashMap<>();
+            Integer id = role.getId();
+            String name = role.getName();
+            tmpMap.put("id", id + "");
+            tmpMap.put("text", name);
+            tmpMap.put("value", id + "");
+            tmpMap.put("parentnodes", "0");
+            tmpMap.put("showcheck", false);
+            tmpMap.put("hasChildren", false);
+            tmpMap.put("isexpand", false);
+            tmpMap.put("complete", false);
+            tmpMap.put("ChildNodes", new ArrayList<>());
+            dataList.add(tmpMap);
+        }
+        return JSONArray.fromObject(dataList);
+    }
+
+    /**
      * 默认后台地址
      *
      * @return
      */
     @RequestMapping(value = "")
-    public ModelAndView indexDef() {
+    public ModelAndView addModule() {
         return this.getFtlAdminMV("index");  // 初始化为登陆的视图
+    }
+
+    /**
+     * 添加模块页面，添加之前不和权限关联，后面从新设置
+     *
+     * @return ModelAndView
+     * @author zhaojy
+     * @createTime 2017-07-14
+     */
+    @RequestMapping(value = "/addModule.html")
+    public ModelAndView indexDef() {
+        return this.getJspAdminMV("addModule");
     }
 }
